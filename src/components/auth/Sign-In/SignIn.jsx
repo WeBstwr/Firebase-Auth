@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle,
+  doSignInWithFacebook,
 } from "../../../firebase/auth.js";
 import { useAuth } from "../../../context/authContext/authContext.jsx";
 import { Link } from "react-router-dom";
@@ -36,6 +37,16 @@ const SignIn = () => {
     }
   };
 
+  const onFacebookSignIn = async () => {
+    try {
+      setIsSigningIn(true);
+      await doSignInWithFacebook();
+    } catch (error) {
+      setError(error.message);
+      setIsSigningIn(false);
+    }
+  };
+
   return (
     <>
       {userLoggedIn && <Navigate to="/home" replace />}
@@ -61,6 +72,9 @@ const SignIn = () => {
         </button>
         <button type="button" onClick={onGoogleSignIn} disabled={isSigningIn}>
           {isSigningIn ? "Signing In..." : "Sign In with Google"}
+        </button>
+        <button type="button" onClick={onFacebookSignIn} disabled={isSigningIn}>
+          {isSigningIn ? "Signing In..." : "Sign In with Facebook"}
         </button>
         <Link to="/signUp">Don't have an account? Sign Up</Link>
       </form>

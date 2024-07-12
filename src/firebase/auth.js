@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { auth } from "./firebase.js";
 
@@ -16,6 +17,13 @@ export const doSignInWithEmailAndPassword = async (email, password) => {
 
 export const doSignInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
+  const result = await signInWithPopup(auth, provider);
+  console.log(result.user);
+  return result;
+};
+
+export const doSignInWithFacebook = async () => {
+  const provider = new FacebookAuthProvider();
   const result = await signInWithPopup(auth, provider);
   console.log(result.user);
   return result;
